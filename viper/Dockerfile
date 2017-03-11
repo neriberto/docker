@@ -19,10 +19,15 @@ RUN apt-get update && apt-get install -y \
     curl \
     libtool \
     autoconf \
+    automake \
+    make \
+    flex \
+    bison \
     python-socksipy \
     python-m2crypto \
     python-levenshtein \
     swig \
+    libmagic-dev \
     libssl-dev \
     libffi-dev \
     libfuzzy-dev \
@@ -37,7 +42,10 @@ RUN mkdir ~/tmp_build
 RUN cd ~/tmp_build && \
   git clone -b v${YARA_VERSION} https://github.com/VirusTotal/yara.git && \
   cd yara && \
-  bash build.sh && \
+  ./bootstrap.sh && \
+  ./configure --enable-magic && \
+  make && \
+  make check && \
   make install && \
   rm -rf yara && \
   ldconfig
@@ -54,8 +62,8 @@ RUN git clone --recursive https://github.com/VirusTotal/yara-python && \
 RUN cd ~/tmp_build && \
   git clone -b v${PYEXIF_VERSION} git://github.com/smarnach/pyexiftool.git && \
   cd pyexiftool && \
-  python setup.py install 
-  
+  python setup.py install
+
 # Install AndroGuard
 RUN cd ~/tmp_build && \
   curl -sSL https://github.com/androguard/androguard/archive/${ANDROGUARD_VERSION}.tar.gz | \

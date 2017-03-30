@@ -18,7 +18,7 @@ RUN apt-get install -y \
     make \
     flex \
     bison \
-    python-socksipy \
+    python-socks \
     python-m2crypto \
     python-levenshtein \
     swig \

@@ -28,6 +28,7 @@ RUN apt-get install -y \
     libfuzzy-dev \
     pff-tools \
     libimage-exiftool-perl && \
+    bsdmainutils && \
   rm -rf /var/lib/apt/lists/*
 
 # Make Tmp Dir

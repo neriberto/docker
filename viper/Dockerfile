@@ -89,6 +89,9 @@ WORKDIR /home/viper/viper
 RUN pip install -r requirements.txt
 
 USER viper
+RUN mkdir /home/viper/.viper && \
+    cp viper.conf.sample /home/viper/.viper/viper.conf
+
 VOLUME /home/viper/.viper
 EXPOSE 9090
 CMD python viper-web -H $HOSTNAME

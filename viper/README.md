@@ -13,7 +13,7 @@ docker build -t neriberto/viper .
 Below an example to run in a Windows desktop for development and tests (Don't forget to stop any antimalware, like Windows Defender).
 
 ```
-docker run --rm -p 9090:9090 -it -v c:/users/neriberto/viper-workdir:/home/viper/.viper/ neriberto/viper
+docker run --rm -p 9090:9090 -it -v viper:/home/viper/.viper/ neriberto/viper
 ```
 
 ## Changelog

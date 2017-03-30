@@ -1,17 +1,12 @@
-#
-# This file is part of Viper - https://github.com/viper-framework/viper
-# See the file 'LICENSE' for copying permission.
-#
-
-FROM ubuntu:14.04
-MAINTAINER Viper-Framework (https://github.com/viper-framework)
+FROM neriberto/ubuntu
+LABEL Neriberto C.Prado <neriberto@gmail.com>
 
 ENV YARA_VERSION       3.5.0
 ENV PYEXIF_VERSION     0.2.0
 ENV ANDROGUARD_VERSION 1.9
 
 USER root
-RUN apt-get update && apt-get install -y \
+RUN apt-get install -y \
     git \
     gcc \
     python-dev \

@@ -1,7 +1,7 @@
 services:
   - docker
 install:
-  - docker build -t neriberto/viper .
+  - docker build -t neriberto/viper viper/.
   - docker run -d -p 9090:9090 -v viper-workdir:/home/viper/.viper --name viper neriberto/viper
 script:
   - docker ps | grep -q viper

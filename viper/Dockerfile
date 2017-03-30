@@ -27,7 +27,7 @@ RUN apt-get install -y \
     libffi-dev \
     libfuzzy-dev \
     pff-tools \
-    libimage-exiftool-perl && \
+    libimage-exiftool-perl \
     bsdmainutils && \
   rm -rf /var/lib/apt/lists/*
 

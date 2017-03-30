@@ -1,3 +1,3 @@
-# Ubuntu (Latest)
+# Ubuntu (14.04)
 
-A updated Ubuntu (latest version) image to create containers
+A updated Ubuntu (14.04 version) image to create containers

@@ -84,6 +84,18 @@ USER root
 WORKDIR /home/viper/viper
 RUN pip install -r requirements.txt
 
+RUN apt-get autoremove
+RUN apt-get -y purge python-dev \
+    libmagic-dev \
+    libssl-dev \
+    libffi-dev \
+    libfuzzy-dev \
+    git \
+    gcc \
+    autoconf \
+    automake \
+    make
+
 USER viper
 RUN mkdir /home/viper/.viper && \
     cp viper.conf.sample /home/viper/.viper/viper.conf

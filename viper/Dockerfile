@@ -83,6 +83,7 @@ RUN git clone https://github.com/viper-framework/viper.git
 USER root
 WORKDIR /home/viper/viper
 RUN pip install -r requirements.txt
+RUN pip install pyclamd
 
 RUN apt-get autoremove
 RUN apt-get -y purge python-dev \

@@ -8,7 +8,7 @@ RUN apt-get update -qq && \
     python3-dev python3-pip python3-setuptools git \
     libssl-dev swig libffi-dev ssdeep libfuzzy-dev \
     flex bison libssl-dev libmagic-dev valabind valac \
-    p7zip-full unrar
+    p7zip-full unrar exiftool
 
 WORKDIR /opt
 RUN git clone https://github.com/viper-framework/viper

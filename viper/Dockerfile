@@ -1,106 +1,50 @@
-FROM neriberto/ubuntu
-LABEL Neriberto C.Prado <neriberto@gmail.com>
+FROM ubuntu:18.04
+LABEL maintainer="neriberto@gmail.com"
+LABEL version="2.0-dev"
 
-ENV YARA_VERSION       3.5.0
-ENV PYEXIF_VERSION     0.2.0
-ENV ANDROGUARD_VERSION 1.9
+RUN apt-get update -qq && \
+    apt-get --no-install-recommends -yq install \
+    build-essential automake libtool make gcc autoconf \
+    python3-dev python3-pip python3-setuptools git \
+    libssl-dev swig libffi-dev ssdeep libfuzzy-dev \
+    flex bison libssl-dev libmagic-dev valabind valac \
+    p7zip-full unrar
 
-USER root
-RUN apt-get install -y \
-    git \
-    gcc \
-    python-dev \
-    python-pip \
-    curl \
-    libtool \
-    autoconf \
-    automake \
-    make \
-    flex \
-    bison \
-    python-socksipy \
-    python-m2crypto \
-    python-levenshtein \
-    swig \
-    libmagic-dev \
-    libssl-dev \
-    libffi-dev \
-    libfuzzy-dev \
-    pff-tools \
-    libimage-exiftool-perl \
-    bsdmainutils && \
-  rm -rf /var/lib/apt/lists/*
+WORKDIR /opt
+RUN git clone https://github.com/viper-framework/viper
+WORKDIR /opt/viper
+RUN git submodule init && \
+    git submodule update && \
+    pip3 install -r requirements.txt && \
+    make install
 
-# Make Tmp Dir
-RUN mkdir ~/tmp_build
-
-# Install Yara
-RUN cd ~/tmp_build && \
-  git clone -b v${YARA_VERSION} https://github.com/VirusTotal/yara.git && \
-  cd yara && \
-  ./bootstrap.sh && \
-  ./configure --enable-magic && \
-  make && \
-  make check && \
-  make install && \
-  rm -rf yara && \
-  ldconfig
+WORKDIR /src/
+RUN git clone https://github.com/VirusTotal/yara.git
+WORKDIR /src/yara
+RUN ./bootstrap.sh && \
+    ./configure --enable-magic --with-crypto && \
+    make && \
+    make install && \
+    echo "/usr/local/lib" >> /etc/ld.so.conf && \
+    ldconfig
 
 # Install Yara python
-RUN git clone --recursive https://github.com/VirusTotal/yara-python && \
-  cd yara-python && \
-  python setup.py build && \
-  sudo python setup.py install && \
-  cd ~/tmp_build && \
-  sudo rm -rf yara-python
+WORKDIR /src/
+RUN git clone --recursive https://github.com/VirusTotal/yara-python
+WORKDIR /src/yara-python
+RUN python3 setup.py build && python3 setup.py install
 
-# Install PyExif
-RUN cd ~/tmp_build && \
-  git clone -b v${PYEXIF_VERSION} git://github.com/smarnach/pyexiftool.git && \
-  cd pyexiftool && \
-  python setup.py install
+WORKDIR /src/
+RUN git clone https://github.com/radare/radare2.git
+WORKDIR /src/radare2
+RUN sys/install.sh && r2pm init
+#RUN r2pm install lang-python3 && \
+#    r2pm install r2api-python && \
+#    r2pm install r2pipe-py
 
-# Install AndroGuard
-RUN cd ~/tmp_build && \
-  curl -sSL https://github.com/androguard/androguard/archive/${ANDROGUARD_VERSION}.tar.gz | \
-  tar -xzC .  && \
-  cd androguard-${ANDROGUARD_VERSION} && \
-  python setup.py install
+# RUN pip install pyclamd
 
-# Create Viper User
-RUN groupadd -r viper && \
-  useradd -r -g viper -d /home/viper -s /sbin/nologin -c "Viper User" viper && \
-  mkdir /home/viper && \
-  chown -R viper:viper /home/viper
-
-# Clean tmp_build
-RUN rm -rf ~/tmp_build
-
-USER viper
-WORKDIR /home/viper
-RUN git clone https://github.com/viper-framework/viper.git
-
-USER root
-WORKDIR /home/viper/viper
-RUN pip install -r requirements.txt
-RUN pip install pyclamd
-
-RUN apt-get autoremove
-RUN apt-get -y purge python-dev \
-    libmagic-dev \
-    libssl-dev \
-    libffi-dev \
-    libfuzzy-dev \
-    git \
-    gcc \
-    autoconf \
-    automake \
-    make
-
-USER viper
-RUN mkdir /home/viper/.viper && \
-    cp viper.conf.sample /home/viper/.viper/viper.conf
-
-VOLUME /home/viper/.viper
-EXPOSE 9090
-CMD python viper-web -H $HOSTNAME
+RUN apt-get autoremove && \
+    apt-get -y purge python-dev libmagic-dev libssl-dev libffi-dev libfuzzy-dev git gcc autoconf automake make && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /src/*

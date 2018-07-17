@@ -1,19 +1,11 @@
 # A docker for viper framework
 
-This Dockerfile prepares a container to run viper framework, this is a fork from https://github.com/viper-framework/viper-docker to run always from the latest commit.
+This Dockerfile prepares a container to run viper framework, this Dockerfile was a fork from https://github.com/viper-framework/viper-docker to run always from the latest commit.
 
 ## Building
 
 ```
 docker build -t neriberto/viper .
-```
-
-## Running from Windows desktop
-
-Below an example to run in a Windows desktop for development and tests (Don't forget to stop any antimalware, like Windows Defender).
-
-```
-docker run --rm -p 9090:9090 -it -v viper:/home/viper/.viper/ neriberto/viper
 ```
 
 ## Changelog
@@ -22,3 +14,10 @@ docker run --rm -p 9090:9090 -it -v viper:/home/viper/.viper/ neriberto/viper
 
 * Fork from https://github.com/viper-framework/viper-docker
 * Changes to run from the latest commit
+
+### v2
+
+* Updated Dockerfile to work with the Viper version v2.0-dev (commit: 5cf700761d904d9002a272164735c2ed2b4e0df9)
+* Removed pyclamd python library
+* Added tools to uncompress files (p7zip-full, unrar)
+* Added radare2 (commit: 9e4039ccc320c612a56a5c42f30ee862995e39c0)

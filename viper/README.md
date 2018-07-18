@@ -8,16 +8,10 @@ This Dockerfile prepares a container to run viper framework, this Dockerfile was
 docker build -t neriberto/viper .
 ```
 
-## Changelog
+### Apps bundle
 
-### v1
-
-* Fork from https://github.com/viper-framework/viper-docker
-* Changes to run from the latest commit
-
-### v2
-
-* Updated Dockerfile to work with the Viper version v2.0-dev (commit: 5cf700761d904d9002a272164735c2ed2b4e0df9)
-* Removed pyclamd python library
-* Added tools to uncompress files (p7zip-full, unrar)
-* Added radare2 (commit: 9e4039ccc320c612a56a5c42f30ee862995e39c0)
+* [Viper](https://github.com/viper-framework/viper) version v2.0-dev (from commit: 5cf700761d904d9002a272164735c2ed2b4e0df9)
+* Tools to uncompress files (p7zip-full, unrar)
+* Added exiftool
+* [Yara](https://github.com/VirusTotal/yara) (from commit: 27e385271f9084a2c127f2ca5aaab8e800f6884c)
+* [Radare2](https://github.com/radare/radare2) (from commit: 8cb110efa3fd1fada8bb3f770fd2d3536a357bdd)

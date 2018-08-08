@@ -13,5 +13,5 @@ docker build -t neriberto/viper .
 * [Viper](https://github.com/viper-framework/viper) version v2.0-dev (from commit: 5cf700761d904d9002a272164735c2ed2b4e0df9)
 * Tools to uncompress files (p7zip-full, unrar)
 * Added exiftool
-* [Yara](https://github.com/VirusTotal/yara) (from commit: 27e385271f9084a2c127f2ca5aaab8e800f6884c)
-* [Radare2](https://github.com/radare/radare2) (from commit: 8cb110efa3fd1fada8bb3f770fd2d3536a357bdd)
+* [Yara - version 3.8.0](https://github.com/VirusTotal/yara)
+* [Radare2 - version 2.8.0](https://github.com/radare/radare2)

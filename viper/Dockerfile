@@ -26,9 +26,9 @@ RUN git checkout 5cf700761d904d9002a272164735c2ed2b4e0df9 && \
     make install
 
 WORKDIR /src/yara
-RUN git checkout 27e385271f9084a2c127f2ca5aaab8e800f6884c && \
+RUN git checkout v3.8.0 && \
     ./bootstrap.sh && \
-    ./configure --enable-magic --with-crypto && \
+    ./configure --enable-magic --enable-dotnet --with-crypto && \
     make && \
     make install && \
     echo "/usr/local/lib" >> /etc/ld.so.conf && \
@@ -36,12 +36,12 @@ RUN git checkout 27e385271f9084a2c127f2ca5aaab8e800f6884c && \
 
 # Install Yara python
 WORKDIR /src/yara-python
-RUN git checkout 384ebbe0cc24ae00cd0efa142aa6eccaeb13ff0d && \
+RUN git checkout . && \
     python3 setup.py build && \
     python3 setup.py install
 
 WORKDIR /src/radare2
-RUN git checkout 8cb110efa3fd1fada8bb3f770fd2d3536a357bdd && \
+RUN git checkout 2.8.0 && \
     sys/install.sh && \
     r2pm init
 

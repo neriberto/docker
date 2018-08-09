@@ -13,15 +13,22 @@ RUN apt-get update -qq && \
 
 # Download all sources
 WORKDIR /src
-RUN git clone https://github.com/viper-framework/viper && \
+RUN git clone https://github.com/neriberto/viper.git && \
     git clone https://github.com/VirusTotal/yara.git && \
     git clone --recursive https://github.com/VirusTotal/yara-python && \
     git clone https://github.com/radare/radare2.git
+
+# setting up git to change branches
+RUN git config --global user.email "neriberto@gmail.com" && \
+    git config --global user.name "Neriberto C. Prado"
 
 WORKDIR /src/viper
 RUN git checkout 5cf700761d904d9002a272164735c2ed2b4e0df9 && \
     git submodule init && \
     git submodule update && \
+    git checkout yara_module && git checkout r2_module && \
+    git merge yara_module --squash && \
+    sed -i -e s/Django/Django==2.0.2/g requirements-web.txt && \
     pip3 install -r requirements.txt && \
     make install
 

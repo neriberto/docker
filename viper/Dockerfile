@@ -22,6 +22,7 @@ WORKDIR /src/viper
 RUN git checkout 5cf700761d904d9002a272164735c2ed2b4e0df9 && \
     git submodule init && \
     git submodule update && \
+    sed -i -e s/Django/Django==2.0.2/g requirements-web.txt && \
     pip3 install -r requirements.txt && \
     make install
 
